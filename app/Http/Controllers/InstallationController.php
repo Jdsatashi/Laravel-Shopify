@@ -25,15 +25,16 @@ class InstallationController extends Controller
                     if($storeDetail !== null && $storeDetail !== false){
                         $validAccessToken = $this->checkIfTokenIsValid($storeDetail);
                         if($validAccessToken){
-                            print_r("the token is valid.");
+                            return view('welcome');
                         } else {
                             print_r("Invalid token.");
                         }
                     } else {
                         $client_id = config('custom.shopify_api_key');
                         $scopes = config('custom.api_scopes');
-                        $ngrok_url = config('custom.ngrok_url');
-                        $uri = $ngrok_url . "shopify/auth/redirect";
+                        // $url = config('app.url');
+                        $url = config('custom.ngrok_url');
+                        $uri = $url . "shopify/auth/redirect";
                         Log::info('New installation for shop' . $req->shop);
                         $endpoint = "https://{$req->shop}/admin/oauth/authorize?client_id={$client_id}&scope={$scopes}&redirect_uri={$uri}";
                         return Redirect::to($endpoint);
@@ -62,9 +63,10 @@ class InstallationController extends Controller
                         $saveDetail = $this->saveStoreDetail($shopDetail, $access_token);
                         if($saveDetail){
                             Log::info("Successful save detail." . $saveDetail);
-                            $ngrok_uri = config('custom.ngrok_url');
+                            // $uri = config('app.url');
+                            $url = config('custom.ngrok_url');
                             $complete = 'shopify/auth/complete';
-                            $complete_uri = $ngrok_uri . $complete;
+                            $complete_uri = $url . $complete;
                             return redirect($complete_uri);
                         } else {
                             Log::info("Problems when saving.\n" . $saveDetail);
@@ -103,14 +105,14 @@ class InstallationController extends Controller
     }
 
     public function completeInstallation(){
-        echo "Installation completed";
+        return view('welcome');
     }
 
     public function getShopDetailFromShopify($shop, $access_token){
         try {
             $endpoint = getShopifyUrlForStore('shop.json', ['myshopify_domain' => $shop]);
             $headers = getShopifyHeadersForStore(['access_token' => $access_token]);
-            $response = $this->makeAPICallToShopify('GET', $endpoint, null, $headers);
+            $response = $this->makeAPICallToShopify('GET', $endpoint, $headers);
             Log::info($response);
             if($response['status'] == 200){
                 $body = $response['body'];
@@ -132,7 +134,7 @@ class InstallationController extends Controller
             $headers = [
                 'Content-Type' => 'application/json'
             ];
-            $response = $this->makeAPICallToShopify('POST', $endpoint, null, $headers, null);
+            $response = $this->makeAPICallToShopify('POST', $endpoint, $headers, null);
             Log::info("Response getting Token\nToken: " . json_encode($response));
             if($response['status'] == 200){
                 $body = $response['body'];
@@ -178,7 +180,7 @@ class InstallationController extends Controller
                 $token = $storeDetail->access_token;
                 $endpoint = getShopifyUrlForStore('shop.json', $storeDetail);
                 $headers = getShopifyHeadersForStore($storeDetail);
-                $response = $this->makeAPICallToShopify('GET', $endpoint, null, $headers, null);
+                $response = $this->makeAPICallToShopify('GET', $endpoint, $headers, null);
                 return $response['status'] === 200;
             }
             return false;

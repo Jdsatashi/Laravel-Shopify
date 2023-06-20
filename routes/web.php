@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', function () {
+    return view('welcome');
+})->name('home');
+
 Route::prefix('shopify')->group(function(){
    Route::get('auth', [InstallCtrl::class, 'startInstallation']);
    Route::get('auth/redirect', [InstallCtrl::class, 'handleRedirect'])->name('app_install_redirect');
