@@ -18,4 +18,5 @@ if (!function_exists('getShopifyURLForStore')) {
             'X-Shopify-Access-Token' => $storeDetail['access_token']
         ];
     }
+    
 }

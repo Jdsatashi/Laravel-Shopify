@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'https://trinh-vu.acc.loc/'),
 
     'asset_url' => env('ASSET_URL'),
 
@@ -210,6 +210,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'Session' => Illuminate\Support\Facades\Session::class,
     ])->toArray(),
 
 ];
