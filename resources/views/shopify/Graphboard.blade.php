@@ -19,7 +19,19 @@
                     </div>
                     <div class="ms-auto p-2">
                         <form action="{{ route('shopify.dashboard2') }}" method="GET">
-                            <div class="input-group mb-3">
+                            <div class="d-flex">
+
+                            <div class="input-group mb-3 me-1" style="width: 40%;">
+                                <div class="input-group-text">
+                                    <input class="form-check-input mt-0" type="checkbox" name="collection" value="collection" aria-label="Checkbox" id="collectionCheckbox">
+                                </div>
+                                <select class="form-select" name="collectionValue" aria-label="Default select example" id="selectCollection" disabled>
+                                    @foreach($collection as $collect)
+                                        <option value="{{ $collect['id'] }}">{{ $collect['title'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="input-group mb-3" id="normalSearch">
                                 <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Vendors</button>
                                 <ul class="dropdown-menu">
                                     @foreach($vendors as $vendor)
@@ -33,7 +45,7 @@
                                         </li>
                                     @endforeach
                                 </ul>
-                                <input type="text" class="form-control" name="title" aria-label="Search" placeholder="T-shirt, dress, etc." style="min-width: 20em;">
+                                <input type="text" class="form-control" name="title" aria-label="Search" placeholder="T-shirt, dress, etc." style="min-width: 20%; max-width: 60%;">
                                 <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Tags</button>
                                 <ul class="dropdown-menu">
                                 @foreach($tags as $tag)
@@ -47,7 +59,8 @@
                                     </li>
                                 @endforeach
                                 </ul>
-                                <button type="submit" class="btn btn-outline-dark">Search</button>
+                            </div>
+                            <button type="submit" class="btn btn-outline-dark mb-3">Search</button>
                             </div>
                         </form>
                     </div>
@@ -88,8 +101,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="discountValue">Discount Value:</label>
-                                    <input type="number" class="form-control" id="discountValue" min="1" name="value"
-                                           placeholder="Enter discount value">
+                                    <input type="number" class="form-control" id="discountValue" min="1" step="any"
+                                           name="value" placeholder="Enter discount value">
                                 </div>
 
                                 <div class="modal-footer">
@@ -140,6 +153,7 @@
                 </thead>
                 <tbody>
                 @foreach ($products as $product)
+
                     <tr>
                         @foreach($variants as $variant)
                             @if($variant['id'] == $product['id'])
@@ -342,7 +356,7 @@
         const revertVariantIdInput = document.getElementById('revertVariantIdInput');
         const revertSubmitButton = document.getElementById('revertSubmitButton');
 
-        // Handle when checkbox all is checked
+        // Xử lý sự kiện khi checkbox all thay đổi
         selectAllCheckbox.addEventListener('change', function() {
             const isChecked = selectAllCheckbox.checked;
             productCheckboxes.forEach(function(checkbox) {
@@ -354,7 +368,7 @@
             updateButtonStatus();
         });
 
-        // Handling event when product checkbox changes
+        // Xử lý sự kiện khi checkbox product thay đổi
         productCheckboxes.forEach(function(checkbox) {
             checkbox.addEventListener('change', function() {
                 const isChecked = checkbox.checked;
@@ -364,7 +378,7 @@
             });
         });
 
-        // Handling event when variant checkbox changes
+        // Xử lý sự kiện khi checkbox variant thay đổi
         variantCheckboxes.forEach(function(checkbox) {
             checkbox.addEventListener('change', function() {
                 const productId = checkbox.dataset.productId;
@@ -375,7 +389,7 @@
             });
         });
 
-        // Update variant checkboxes based on product checkbox status
+        // Cập nhật trạng thái của các checkbox variant dựa trên checkbox product tương ứng
         function updateVariantCheckboxes(productCheckbox, isChecked) {
             const productId = productCheckbox.dataset.productId;
             const variantCheckboxes = Array.from(document.querySelectorAll(`.variant-checkbox[data-product-id="${productId}"]`));
@@ -384,7 +398,7 @@
             });
         }
 
-        // Update product checkbox status based on variant checkboxes
+        // Cập nhật trạng thái của checkbox product dựa trên trạng thái của các checkbox variant
         function updateProductCheckbox(productCheckbox) {
             const productId = productCheckbox.dataset.productId;
             const variantCheckboxes = Array.from(document.querySelectorAll(`.variant-checkbox[data-product-id="${productId}"]`));
@@ -394,7 +408,7 @@
             productCheckbox.checked = isProductChecked;
         }
 
-        // Update checkbox all base on product checkboxes and variant checkboxes
+        // Cập nhật trạng thái của checkbox all trên th dựa trên trạng thái của các checkbox product và variant
         function updateSelectAllCheckbox() {
             const isAllChecked = productCheckboxes.every(function(checkbox) {
                 return checkbox.checked;
@@ -405,7 +419,7 @@
             selectAllCheckbox.checked = isAllChecked && !isAnyVariantUnchecked;
         }
 
-        // Updating checkbox status
+        // Cập nhật trạng thái của nút
         function updateButtonStatus() {
             const isAnyCheckboxChecked = productCheckboxes.some(function(checkbox) {
                 return checkbox.checked;
@@ -435,7 +449,7 @@
             hideModal();
         });
 
-        // Get list of variants that are selected
+        // Lấy danh sách các variant đã chọn
         function getSelectedVariants() {
             const selectedVariants = [];
             variantCheckboxes.forEach(function(checkbox) {
@@ -451,18 +465,18 @@
             variantIdInput.value = selectedVariants.join(',');
         }
 
-        // Show modal
+        // Hiển thị modal
         function showModal() {
             const myModal = new bootstrap.Modal(document.getElementById('myModal'));
             myModal.show();
         }
 
-        // Hide modal discount click
+        // Ẩn modal
         closeButton.addEventListener('click', function() {
             hideModal();
         });
 
-        // Hide modal discount acting
+        // Ẩn modal
         function hideModal() {
             const myModal = document.getElementById('myModal');
             const bootstrapModal = bootstrap.Modal.getInstance(myModal);
@@ -473,9 +487,13 @@
             const selectedOption = discountTypeSelect.value;
 
             if (selectedOption === 'percent') {
+                discountValueInput.min = '';
                 discountValueInput.max = 99;
+                discountValueInput.step = '0.01';
             } else {
-                discountValueInput.removeAttribute('max');
+                discountValueInput.min = 1;
+                discountValueInput.max = '';
+                discountValueInput.step = '0.01';
             }
         });
 
@@ -492,22 +510,41 @@
             hideRevertModal();
         });
 
-        // Update content modal "Revert"
+        // Cập nhật nội dung modal "Revert"
         function updateRevertModalContent(selectedVariants) {
             revertVariantIdInput.value = selectedVariants.join(',');
         }
 
-        // show modal "Revert"
+        // Hiển thị modal "Revert"
         function showRevertModal() {
             const modal = new bootstrap.Modal(revertModal);
             modal.show();
         }
 
-        // Hide modal "Revert"
+        // Ẩn modal "Revert"
         function hideRevertModal() {
             const modal = bootstrap.Modal.getInstance(revertModal);
             modal.hide();
         }
-    </script>
 
+        var disableCheckbox = document.getElementById('collectionCheckbox');
+        var elementsToDisable = document.querySelectorAll('#normalSearch input');
+        var selectToEnable = document.getElementById('selectCollection');
+
+        disableCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                elementsToDisable.forEach(function(element) {
+                    element.disabled = true;
+                    element.value = '';
+                });
+                selectToEnable.disabled = false;
+            } else {
+                elementsToDisable.forEach(function(element) {
+                    element.disabled = false;
+                });
+                selectToEnable.disabled = true;
+            }
+        });
+
+    </script>
 @endsection

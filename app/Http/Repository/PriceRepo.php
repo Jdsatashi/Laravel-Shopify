@@ -16,4 +16,7 @@
         public function update($data, $id){
             return Price::where('product_id', $id)->update($data);
         }
+        public function delete($id){
+            return Price::where('product_id', $id)->delete();
+        }
     }
