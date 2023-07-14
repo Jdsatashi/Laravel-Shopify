@@ -153,7 +153,6 @@
                 </thead>
                 <tbody>
                 @foreach ($products as $product)
-
                     <tr>
                         @foreach($variants as $variant)
                             @if($variant['id'] == $product['id'])
@@ -198,15 +197,14 @@
                                                 $svid = str_replace('gid://shopify/ProductVariant/', '', $variant_id);
 
                                                 $variant_local = \App\Models\Price::where('product_id', $svid)->first();
-                                                if($variant_local){
+                                                if(!$variant_local){
                                                     $price_local = $variant_local->price;
                                                     $type = $variant_local->discount_type;
+                                                    $discount = $variant_local->discount_value;
+                                                    $discount_price = number_format($discount, 2, '.', '');
                                                     if($type == 'fixed'){
-                                                        $discount = $price_local - $variant['variants']['edges'][0]['node']['price'];
-                                                        echo $discount . ' ' . $currency;
+                                                        echo $discount_price . ' ' . $currency;
                                                     } else if ($type == 'percent'){
-                                                        $discount = (($price_local - $variant['variants']['edges'][0]['node']['price']) / $price_local) * 100;
-                                                        $discount_price = number_format($discount, 2, '.', '');
                                                         echo $discount_price . '%';
                                                     }
                                                 } else {
@@ -293,12 +291,11 @@
                                             if($variant_local){
                                                 $price_local = $variant_local->price;
                                                 $type = $variant_local->discount_type;
+                                                $discount = $variant_local->discount_value;
+                                                $discount_price = number_format($discount, 2, '.', '');
                                                 if($type == 'fixed'){
-                                                    $discount = $price_local - $variantEdge['node']['price'];
-                                                    echo $discount . ' ' . $currency;
+                                                    echo $discount_price . ' ' . $currency;
                                                 } else {
-                                                    $discount = (($price_local - $variantEdge['node']['price']) / $price_local) * 100;
-                                                    $discount_price = number_format($discount, 2, '.', '');
                                                     echo $discount_price . '%';
                                                 }
                                             } else {

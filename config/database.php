@@ -34,6 +34,11 @@ return [
     */
 
     'connections' => [
+        'mongodb' => [
+            'driver' => 'mongodb',
+            'dsn' => env('DB_URI', 'mongodb+srv://vdt1073:database@appclone.h4tab5r.mongodb.net/?retryWrites=true&w=majority'),
+            'database' => env('DB_DATABASE', 'shopify'),
+        ],
 
         'sqlite' => [
             'driver' => 'sqlite',

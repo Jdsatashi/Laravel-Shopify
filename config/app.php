@@ -195,6 +195,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         browner12\helpers\HelperServiceProvider::class,
+
+        // Mongodb
+        Jenssegers\Mongodb\MongodbServiceProvider::class,
     ],
 
     /*
