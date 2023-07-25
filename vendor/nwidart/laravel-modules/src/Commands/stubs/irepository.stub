@@ -1,0 +1,17 @@
+<?php
+
+namespace $CLASS_NAMESPACE$;
+
+interface I$NAME$
+{
+    // Get all data from the model by pagination 5
+    public function getAll();
+    // Store data to the model
+    public function store($data);
+    // Get data by id
+    public function getById($id);
+    // Update data by id
+    public function update($data, $id);
+    // Delete data by id
+    public function delete($id);
+}

@@ -14,54 +14,13 @@
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <style>
-        .table-design {
-            font-family: Arial, Helvetica, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        .table-design td,
-        .table-design th {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
-
-        .table-design tr:hover {
-            background-color: #dad9d3;
-        }
-
-        .table-design th {
-            padding-top: 12px;
-            padding-bottom: 12px;
-            text-align: left;
-            background-color: #04AA6D;
-            color: white;
-        }
-        .custom-tr {
-            transition: background-color 0.3s ease;
-        }
-
-        .custom-tr:nth-child(even) {
-            background-color: #fffdf8;
-        }
-
-        .custom-tr:nth-child(odd) {
-            background-color: #eaf8fd;
-        }
-
-        .custom-tr:hover {
-            background-color: #d8f5ff;
-        }
-
-        .custom-tr td {
-            border: 1px solid #dfffec;
-            padding: 8px;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/loading.css') }}">
 </head>
 <body>
-    @include('layouts.alert')
+    <div id="loadingSpinner" style="display: none;">
+        <div class="lds-dual-ring"></div>
+        <div><p>Loading...</p></div>
+    </div>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
@@ -76,10 +35,12 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('shopify.dashboard') }}">Dashboard</a>
+                            <a class="nav-link" href="{{ route('shopify.dashboard') }}">Dashboard REST</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('shopify.dashboard2') }}">Dashboard GraphQL</a>
                         </li>
                     </ul>
-
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
@@ -125,5 +86,6 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </body>
 </html>

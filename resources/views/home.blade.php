@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('shopify::layouts.app')
 
 @section('content')
 <div class="container">

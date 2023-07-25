@@ -1,0 +1,29 @@
+<?php
+
+namespace $CLASS_NAMESPACE$;
+
+// use Modules\Shopify\Entities\$MODULE$;
+
+class $NAME$ implements I$NAME$
+{
+    public function getAll(){
+        // List all data by model
+
+    }
+    public function store($data){
+        // Store data to model
+
+    }
+    public function getById($id){
+        // Get data by id
+
+    }
+    public function update($data, $id){
+        // Update data by id
+
+    }
+    public function delete($id){
+        // Delete data by id
+
+    }
+}

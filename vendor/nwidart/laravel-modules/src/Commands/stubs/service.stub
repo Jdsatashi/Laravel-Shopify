@@ -1,0 +1,10 @@
+<?php
+
+namespace $CLASS_NAMESPACE$;
+
+class $NAME$
+{
+    /**
+        Write code here
+     */
+}
